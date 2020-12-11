@@ -1,3 +1,38 @@
+# on:
+#   - push
+
+# jobs:
+#   deploy:
+#     runs-on: self-hosted
+#     name: Build
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Yarn cache directory
+#         id: yarn-cache-dir
+#         run: echo "::set-output name=dir::$(yarn cache dir)"
+#       - name: Gatsby Cache Folder
+#         uses: actions/cache@v2
+#         with:
+#           path: .cache
+#           key: gatsby-cache-folder
+#       - name: Gatsby Public Folder
+#         uses: actions/cache@v2
+#         with:
+#           path: public
+#           key: gatsby-public-folder
+#       - name: Yarn cache
+#         uses: actions/cache@v2
+#         with:
+#           path: ${{ steps.yarn-cache-dir.outputs.dir }}
+#           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+#           restore-keys: |
+#             ${{ runner.os }}-yarn-
+#       - name: Yarn install
+#         run: 'yarn install --pure-lockfile'
+#       - name: Build app
+#         run: 'yarn run build:incremental'
+
+
 on:
   - push
 
@@ -7,29 +42,19 @@ jobs:
     name: Build
     steps:
       - uses: actions/checkout@v2
-      - name: Yarn cache directory
-        id: yarn-cache-dir
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Gatsby Cache Folder
+      - name: Cache node modules
         uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
         with:
-          path: .cache
-          key: gatsby-cache-folder
-      - name: Gatsby Public Folder
-        uses: actions/cache@v2
-        with:
-          path: public
-          key: gatsby-public-folder
-      - name: Yarn cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-     
       - name: Yarn install
-        run: 'yarn install --pure-lockfile'
+        run: 'npm install'
       - name: Build app
-        run: 'yarn run build:incremental'
-      # - name: Deploy
-      #   run: 'yarn run deploy'
+        run: 'npm run build:incremental'
