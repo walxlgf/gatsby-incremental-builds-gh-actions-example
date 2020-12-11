@@ -67,4 +67,5 @@ jobs:
       - name: Npm install
         run: 'npm install'
       - name: Build app
-        run: 'npm run build:incremental'
+        # run: 'npm run build:incremental'
+        run: 'npm run build'
