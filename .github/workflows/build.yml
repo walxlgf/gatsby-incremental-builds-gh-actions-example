@@ -13,13 +13,13 @@ jobs:
       - name: Gatsby Cache Folder
         uses: actions/cache@v2
         with:
-          key: gatsby-cache-folder
           path: .cache
+          key: gatsby-cache-folder
       - name: Gatsby Public Folder
         uses: actions/cache@v2
         with:
-          key: gatsby-public-folder
           path: public
+          key: gatsby-public-folder
       - name: Yarn cache
         uses: actions/cache@v2
         with:
