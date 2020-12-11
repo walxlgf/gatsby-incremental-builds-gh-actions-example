@@ -31,3 +31,5 @@ jobs:
         run: 'yarn install --pure-lockfile'
       - name: Build app
         run: 'yarn run build:incremental'
+      - name: Deploy
+        run: 'yarn run deploy'
