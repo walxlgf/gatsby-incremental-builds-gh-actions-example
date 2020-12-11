@@ -45,12 +45,12 @@ jobs:
       - name: Gatsby Cache Folder
         uses: actions/cache@v2
         with:
-          path: .cache
+          path: ./.cache
           key: gatsby-cache-folder
       - name: Gatsby Public Folder
         uses: actions/cache@v2
         with:
-          path: public
+          path: ./public
           key: gatsby-public-folder
       - name: Cache node modules
         uses: actions/cache@v2
