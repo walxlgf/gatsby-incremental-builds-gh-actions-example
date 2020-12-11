@@ -42,6 +42,16 @@ jobs:
     name: Build
     steps:
       - uses: actions/checkout@v2
+      - name: Gatsby Cache Folder
+        uses: actions/cache@v2
+        with:
+          path: .cache
+          key: gatsby-cache-folder
+      - name: Gatsby Public Folder
+        uses: actions/cache@v2
+        with:
+          path: public
+          key: gatsby-public-folder
       - name: Cache node modules
         uses: actions/cache@v2
         env:
@@ -54,7 +64,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-     
-      - name: Yarn install
+      - name: Npm install
         run: 'npm install'
       - name: Build app
         run: 'npm run build:incremental'
